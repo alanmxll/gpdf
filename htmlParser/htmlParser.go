@@ -1,10 +1,9 @@
-package parser
+package htmlParser
 
 import (
-	"html/template"
 	"os"
+	"text/template"
 
-	parser "github.com/alanmxll/gpdf/src/parser/interfaces"
 	"github.com/google/uuid"
 )
 
@@ -12,7 +11,7 @@ type htmlParser struct {
 	rootPath string
 }
 
-func New(rootPath string) parser.HTMLParserInterface {
+func New(rootPath string) HTMLParserInterface {
 	return &htmlParser{rootPath: rootPath}
 }
 

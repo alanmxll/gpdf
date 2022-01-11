@@ -2,18 +2,38 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/alanmxll/gpdf/htmlParser"
+	"github.com/alanmxll/gpdf/pdfGenerator"
 )
 
-func main() {
-	h := htmlParser.New("tmp")
+type Data struct {
+	Name string
+}
 
-	htmlGenerated, err := h.Create("templates/example.html", nil)
+func main() {
+
+	h := htmlParser.New("tmp")
+	wkhtml := pdfGenerator.NewWkHtmlToPDF("tmp")
+
+	dataHTML := Data{
+		Name: "Alan",
+	}
+
+	htmlGenerated, err := h.Create("templates/example.html", dataHTML)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println("Generated HTML:", htmlGenerated)
+	defer os.Remove(htmlGenerated)
+	fmt.Println("HTML generated", htmlGenerated)
+
+	filePDFName, err := wkhtml.Create(htmlGenerated)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("PDF generated", filePDFName)
 }
